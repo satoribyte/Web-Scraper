@@ -53,7 +53,7 @@ Web Scraper is a Python program used to extract data from websites. This program
 5. Customize the code in the `web_scraper.py` file according to your needs. You can set the article URL(s), referer URLs, and data extraction limits.
 6. Run the program by executing the following command:
 
-`python web_scraper.py`
+`python start.py`
 
 7. Follow the prompts displayed in the terminal to select either a single article URL or multiple article URLs.
 8. The program will start scraping and display the extracted article information from the website.
@@ -64,7 +64,7 @@ Web Scraper is a Python program used to extract data from websites. This program
 To run the "Web Scraper" program with multiple URLs and a specific limit, you can use the following command:
 
 
-` python web_scraper.py <<< $'banyak\ncauwarna.txt\nreferer.txt\n10000'`
+` python start.py <<< $'banyak\ncauwarna.txt\nreferer.txt\n10000'`
 
 ## How It Works
 
