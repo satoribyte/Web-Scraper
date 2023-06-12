@@ -63,8 +63,8 @@ Web Scraper is a Python program used to extract data from websites. This program
 
 To run the "Web Scraper" program with multiple URLs and a specific limit, you can use the following command:
 
-```shell
-python web_scraper.py <<< $'banyak\ncauwarna.txt\nreferer.txt\n10000'
+
+` python web_scraper.py <<< $'banyak\ncauwarna.txt\nreferer.txt\n10000'`
 
 ## How It Works
 
