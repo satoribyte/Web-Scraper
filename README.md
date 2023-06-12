@@ -56,7 +56,7 @@ Web Scraper is a Python program used to extract data from websites. This program
 
 `pip install --upgrade setuptools`
 
-5. Customize the code in the `web_scraper.py` file according to your needs. You can set the article URL(s), referer URLs, and data extraction limits.
+5. Customize the code in the `start.py` file according to your needs. You can set the article URL(s), referer URLs, and data extraction limits.
 6. Run the program by executing the following command:
 
 `python start.py`
