@@ -1,6 +1,5 @@
 beautifulsoup4==4.9.3
-fake-useragent==0.1.11
+fake_useragent==0.1.11
+pyfiglet==0.8.post1
 requests==2.25.1
 termcolor==1.1.0
-pyfiglet==0.8.post1
-setuptools==57.1.0
