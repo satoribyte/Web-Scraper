@@ -58,9 +58,17 @@ Web Scraper is a Python program used to extract data from websites. This program
 7. Follow the prompts displayed in the terminal to select either a single article URL or multiple article URLs.
 8. The program will start scraping and display the extracted article information from the website.
 
+
+
+
+To run the "Web Scraper" program with multiple URLs and a specific limit, you can use the following command:
+
+```shell
+python web_scraper.py <<< $'banyak\ncauwarna.txt\nreferer.txt\n10000'
+
 ## How It Works
 
-1. The program generates a random user agent using the `fake_useragent` library. This user agent is used to provide variation and anonymity when making requests to the server.
+1. The program generates a random useragent using the `fake_useragent` library. This user agent is used to provide variation and anonymity when making requests to the server.
 2. If the user chooses the option for multiple article URLs, the program reads the list of article URLs from the specified file.
 3. The program also reads the list of referer URLs from the specified file to be used as references when making requests.
 4. In each iteration, the program randomly selects a user agent and referer URL from the provided lists.
