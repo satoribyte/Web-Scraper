@@ -33,7 +33,7 @@
               █   █▀ █   ║▌▀▌  ┌█▐█  █▄▄▄▄▀  █∩  ,█∩ █     █∩ █Ü▀▌  █H █▌
               █  ▄█▄▄▄█  ║█ ▀▄ █.▐█  █   "█  █▀▀▀█   █     █∩ █U ╙█,█H █▌  ▀▀█⌡
          ▀█▄,▄█ ╓█    ▀█ ║█  ██" ▐█  █▄▄▄▄█  █∩  └█µ ▀█▄,▄█▀  █U   ▀█H `█▄,,▄█U
-          YT : Deni Gentar Candana
+          IG : Deni Gentar Candana
      
     
 
@@ -79,4 +79,22 @@ This Web Scraper program allows you to easily retrieve information from websites
 
 However, it's important to use it ethically and comply with the applicable rules. Make sure you have permission to access and retrieve data from the targeted websites. Also, be mindful of the limitations and policies of the websites regarding data scraping.
 
-Developed by [@denigentarcandana.id](https://www.instagram.com/denigentarcandana.id/)
+## Violations and Ethical Considerations
+
+The use of the "Web Scraper" program may violate certain rules and policies regarding web data extraction. Some important considerations include:
+
+1. **Copyright**: Pay attention to the copyright and regulations that protect the content of the target website. Make sure to obtain permission from the website owner before extracting their data.
+
+2. **Privacy Policies**: It is crucial to respect user privacy and avoid extracting personal data that would violate the website's privacy policies. Do not retrieve sensitive or personal information without proper authorization.
+
+3. **Terms of Service**: Many websites have terms of service agreements that govern the usage and access to their content. Be sure to comply with the terms of service and respect the limitations set by the website.
+
+4. **Technical Restrictions**: Some websites may implement technical restrictions such as CAPTCHA or access tokens to prevent scraping. Respect these limitations and do not bypass them in an attempt to extract data.
+
+5. **Ethics**: Always act with integrity and ethics when using this program. Avoid excessive scraping, overloading web servers, or causing unnecessary disruptions.
+
+Ensure that you understand and comply with the rules and regulations applicable in your jurisdiction, as well as the policies of the websites you intend to scrape. Obtain permission or consent from the website owner before performing any scraping activities. The use of this program is entirely at the user's own risk, and the program creator is not liable for any misuse or violations that may occur.
+
+Feel free to contact the program creator [@denigentarcandana.id](https://www.instagram.com/denigentarcandana.id/) if you have any questions or additional needs.
+
+
