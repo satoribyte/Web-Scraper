@@ -5,6 +5,7 @@ import platform
 import random
 import shutil
 import signal
+import shutil
 from termcolor import colored
 from pyfiglet import Figlet
 import requests
@@ -37,11 +38,19 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
+def print_centered(text):
+    terminal_width = shutil.get_terminal_size().columns
+    total_length = terminal_width - len(text)
+    side_length = total_length // 2
+    line = "-" * side_length
+    centered_text = f"{line}[{text}]{line}"
+    print(centered_text)
+
 random_ip = None
 
 def get_random_ip():
     global random_ip
-    
+
     try:
         with open("ip.txt", "r") as file:
             ip_list = [line.strip() for line in file if line.strip()]
@@ -51,19 +60,32 @@ def get_random_ip():
         print("File 'ip.txt' tidak ditemukan.")
         return None
 
+from termcolor import colored
+
 def track_ip():
     if random_ip:
-        url = f"https://ip-api.com/json/{random_ip}"
+        url = f"http://ip-api.com/json/{random_ip}"
         response = requests.get(url)
-        data = response.json()
+        ip_data = response.json()
+        
+        if ip_data["status"] == "success":
+            print(colored("IP Address:", "red"), colored(ip_data["query"], "green"))
+            print(colored("Status:", "yellow"), colored(ip_data["status"], "blue"))
+            print(colored("Negara:", "magenta"), colored(ip_data["country"], "cyan"))
+            print(colored("Kode Negara:", "yellow"), colored(ip_data["countryCode"], "magenta"))
+            print(colored("Wilayah:", "green"), colored(ip_data["region"], "yellow"))
+            print(colored("Nama Wilayah:", "blue"), colored(ip_data["regionName"], "red"))
+            print(colored("Kota:", "cyan"), colored(ip_data["city"], "green"))
+            print(colored("Kode Pos:", "magenta"), colored(ip_data["zip"], "blue"))
+            print(colored("Latitude:", "yellow"), colored(ip_data["lat"], "cyan"))
+            print(colored("Longitude:", "red"), colored(ip_data["lon"], "magenta"))
+            print(colored("TimeZone:", "green"), colored(ip_data["timezone"], "yellow"))
+            print(colored("ISP:", "blue"), colored(ip_data["isp"], "cyan"))
+            print(colored("Organisasi:", "magenta"), colored(ip_data["org"], "green"))
+            print(colored("AS:", "cyan"), colored(ip_data["as"], "blue"))
+        else:
+            print(colored("Gagal melacak IP.", "red"))
 
-        country = data.get('country')
-        city = data.get('city')
-        location_code = data.get('region')
-
-        return country, city, location_code
-    else:
-        return None
 
 def show_banner():
     f = Figlet(font='slant')
@@ -72,7 +94,7 @@ def show_banner():
     max_banner_width = min(terminal_width, 80)
     f = Figlet(font='slant', width=max_banner_width)
     banner_text = f.renderText("Web Scraper")
-    print(colored(banner_text, 'blue'))
+    print(colored(banner_text, 'white', attrs=["bold"]))
 
 def scrape_article(url, article_number, referer_urls, user_agents):
     random_ip = get_random_ip()
@@ -85,9 +107,12 @@ def scrape_article(url, article_number, referer_urls, user_agents):
             "Referer": random.choice(referer_urls),
             "X-Forwarded-For": get_random_ip()
         }
+        
+        print_centered(str(article_number))
         print(colored(f"User-Agent: {user_agent}", "red"))
         print(colored(f"Referer: {headers['Referer']}", "yellow"))
         print(colored(f"X-Forwarded-For: {headers['X-Forwarded-For']}", "green"))
+        result = track_ip()
         print()
 
         print(colored(f"SCRAPING URL {article_number}: {url}", "blue"))
@@ -112,54 +137,61 @@ def scrape_article(url, article_number, referer_urls, user_agents):
 
 
 if __name__ == "__main__":
+    get_random_ip()
+    track_ip()
     os.system("cls" if os.name == "nt" else "clear")
     if not check_internet_connection():
         print(colored("Tidak ada koneksi internet.", "red") + colored(" Hati-hati ya, hatiku bisa meleleh padamu.\n", "green"))
 
     while True:
         url_choice = input(colored("Apakah kamu ingin membuka satu URL artikel atau banyak? ", "green") + colored(" Kamu tahu, jika kamu pilih 'satu' maka hatiku hanya akan terbuka untukmu, tapi jika kamu pilih 'banyak' hatiku akan meleleh padamu.\nJadi, apa pilihanku di hatimu? ", "magenta") + colored("(satu/banyak): ", "yellow"))
-    
+
         if url_choice == "satu":
             url = input(colored("Masukkan URL artikel: ", "cyan") + colored(" Kamu sungguh pandai memilih, hatiku hanya akan terbuka untukmu.\n", "green"))
             urls = [url]
             break
         elif url_choice == "banyak":
-            file_path = input(colored("Masukkan alamat file (.txt) yang berisi list URL artikel: ", "cyan") + colored(" Hati-hati ya, hatiku bisa meleleh padamu.\n", "green"))
-    
+            sitemap_url = input(colored("Masukkan URL sitemap: ", "cyan") + colored(" Hati-hati ya, hatiku bisa meleleh padamu.\n", "green"))
+
             try:
-                with open(file_path, 'r') as file:
-                    urls = [line.strip() for line in file if line.strip()]
+                response = requests.get(sitemap_url)
+                response.raise_for_status()
+                soup = BeautifulSoup(response.text, "html.parser")
+                urls = [loc.text for loc in soup.find_all("loc")]
                 break
-            except FileNotFoundError:
-                print(colored("File tidak ditemukan.", "red") + colored(" Hati-hati ya, jangan sampai membuat hatiku hancur.\n", "green"))
+            except requests.exceptions.RequestException:
+                print(colored("Gagal mengambil URL dari sitemap.", "red") + colored(" Hati-hati ya, jangan sampai membuat hatiku hancur.\n", "green"))
         else:
             print(colored("Pilihan tidak valid. Pilih antara satu atau banyak.", "red") + colored(" Aku hanya bisa memilih antara hatimu yang satu atau hatimu yang banyak.\n", "green"))
-    
+
     while True:
         referer_file_path = input(colored("Masukkan alamat file (.txt) yang berisi list referer URLs: ", "yellow") + colored(" Ini menarik, apa referer URLs yang ingin kamu bagikan padaku?\n", "green"))
-    
+
         try:
             with open(referer_file_path, 'r') as referer_file:
                 referer_urls = [line.strip() for line in referer_file if line.strip()]
             break
         except FileNotFoundError:
             print(colored("File tidak ditemukan.", "red") + colored(" Hati-hati ya, hatiku bisa meleleh padamu.\n", "green"))
-            
+
     limit = int(input(colored("Masukkan limit: ", "yellow") + colored(" Hmm, berapa banyak yang ingin kamu ambil? ", "green")))
+    print_centered("Welcome, sweetheart")
     show_banner()
-    print(colored("Meluncurkan proses scraping...", "blue") + colored(" Jaga hatiku agar tetap berdetak untukmu.\n", "green"))
-    
-    if url_choice == "satu":
-        scrape_article(urls[0], 1, referer_urls, user_agents)
-        print()
-    else:
-        for index, url in enumerate(urls[:limit], start=1):
+    print(colored("Meluncurkan proses scraping...\n", "blue") + colored(" Jaga hatiku agar tetap berdetak untukmu.\n", "green"))
+
+    index = 1
+    while limit > 0:
+        for url in urls:
             scrape_article(url, index, referer_urls, user_agents)
             print()
-    
-            if index < len(urls[:limit]):
-                print(colored("Jeda waktu 30 detik sebelum melanjutkan ke URL berikutnya...", "blue") + colored(" Hati-hati ya, jangan tinggalkan hatiku terluka.\n", "green"))
-                time.sleep(30)
-    
-    print(colored("Proses scraping selesai.", "blue") + colored(" Hati-hati ya, jangan tinggalkan hatiku terluka.\n", "green"))
-    
+            index += 1
+            limit -= 1
+
+            if limit == 0:
+                break
+
+            print(colored("Jeda waktu 30 detik sebelum melanjutkan ke URL berikutnya...", "blue") + colored(" Hati-hati ya, jangan tinggalkan hatiku terluka. Karena hatiku hanya berdetak untukmu.\n\n\n", "green"))
+            time.sleep(30)
+
+    print(colored("Proses scraping selesai.", "blue") + colored(" Aku tak bisa cukup berterima kasih atas semua momen indah yang telah kita bagikan. Terima kasih telah bersamaku, kamu adalah sinar dalam kegelapan hidupku. Aku sangat berharap kamu dapat kembali dan bersama lagi denganku, karena kamu adalah cinta sejatiku. \n\n\n", "green"))
+    print("Program ini dibuat oleh seorang pria sejati, yang menciptakan kode-kode cinta untukmu. Jika kamu ingin berteman dengannya, silakan follow Instagramnya di @denigentarcandana.id. Terima kasih telah menggunakan program ini, dan semoga cinta hadir dalam setiap baris kode dalam kehidupanmu. \n\n\n")
