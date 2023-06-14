@@ -81,7 +81,7 @@ To run the "Web Scraper" program with multiple URLs and a specific limit, you ca
 5. The program sends HTTP requests using the `requests` library with headers set according to the selected user agent and referer URL.
 6. The response is parsed using the `BeautifulSoup` library to extract the article titles from the web page.
 7. The article titles are then displayed in the terminal.
-8. After each iteration, the program waits for 5 seconds before proceeding to the next article.
+8. After each iteration, the program waits for 30 seconds before proceeding to the next article.
 
 ## Impact
 
